@@ -1,0 +1,177 @@
+---
+# Full configuration testing all features from the specification
+
+remote:
+  default:
+    url: https://git.example.com/
+  github:
+    url: https://github.com/
+  gitlab:
+    url: https://gitlab.com/
+  bitbucket:
+    url: ssh://git@bitbucket.org/
+  custom-git:
+    url: https://custom-git-server.com/
+  local:
+    url: /local/path/to/git/repositories/
+
+defaults:
+  remote: default
+  revision: main
+  path: ""
+
+repos:
+  # HTTPS repository with custom remote
+  https-repo:
+    remote: github
+    revision: develop
+    path: "https/"
+    repository: "user/https-repo"
+
+  # SSH repository with custom remote
+  ssh-repo:
+    remote: bitbucket
+    revision: v2.0
+    path: "ssh/"
+    repository: "user/ssh-repo"
+
+  # Local repository with absolute path
+  local-repo:
+    remote: local
+    revision: master
+    path: "local/"
+    repository: "user/local-repo"
+
+  # Service with explicit URL override
+  external-repo:
+    remote: "https://git.example.com/"
+    path: "external/"
+    repository: "external-org/external-repo"
+
+  # Service with minimal configuration
+  minimal-service:
+    repository: "user/minimal-service"
+
+  # Service with zero-value configuration
+  zero-config-service:
+    remote: github
+    revision: ""
+    path: "custom/"
+    repository: "user/zero-config-service"
+
+  # Service with special characters in name
+  service-with-dashes_and_underscores:
+    remote: github
+    revision: "release/v1.0"
+    repository: "user/service-with-dashes_and_underscores"
+
+  # Service with no inheritance
+  independent-service:
+    remote: gitlab
+    revision: feature/new-feature
+    path: "features/"
+    repository: "user/independent-service"
+
+  # Service with complex path
+  complex-path-service:
+    remote: github
+    revision: main
+    path: "components/services/"
+    repository: "user/complex-path-service"
+
+  # Service with overridden remote that doesn't exist in defaults
+  custom-remote-service:
+    remote: "https://custom-git-server.com/"
+    revision: main
+    path: ""
+    repository: "user/custom-remote-service"
+
+  # Service with all fields overridden to demonstrate flexibility
+  fully-overridden-service:
+    remote: gitlab
+    revision: v2.0.0
+    path: "production/"
+    repository: "org/fully-overridden-service"
+
+  # Service with SSH remote URL
+  ssh-remote-service:
+    remote: "ssh://git@github.com/user/repo.git"
+    revision: develop
+    path: "ssh-clones/"
+    repository: "user/ssh-remote-service"
+
+  # Service with relative local path
+  relative-local-repo:
+    remote: "./local/repos/"
+    revision: v1.0
+    path: "rel/"
+    repository: "user/relative-local-repo"
+
+  # Service with complex URL structure
+  complex-url-repo:
+    remote: "https://git.example.com/teams/team1/"
+    revision: "feature/branch-name"
+    path: "projects/"
+    repository: "user/complex-url-repo"
+
+  # Service with no remote specified (should use defaults)
+  default-remote-service:
+    revision: "release/1.0"
+    path: "releases/"
+    repository: "user/default-remote-service"
+
+  # Service with different protocol in remote URL
+  http-remote-service:
+    remote: "http://git.example.com/"
+    revision: main
+    path: "http/"
+    repository: "user/http-remote-service"
+
+  # Service with trailing slash in remote URL
+  trailing-slash-service:
+    remote: "https://git.example.com/"
+    revision: develop
+    path: "trailing/"
+    repository: "user/trailing-slash-service"
+
+  # Service with repository name that matches remote URL pattern
+  gitlab:
+    remote: gitlab
+    revision: main
+    path: "custom/"
+    repository: "user/gitlab"
+
+  # Service with numeric repository name
+  "123-service":
+    remote: github
+    revision: "v1.2.3"
+    path: "numeric/"
+    repository: "user/123-service"
+
+  # Service with very long repository name
+  service-with-very-long-name-that-exceeds-normal-length-limitations:
+    remote: default
+    revision: "feature/very-long-branch-name"
+    path: "long-names/"
+    repository: "user/service-with-very-long-name-that-exceeds-normal-length-limitations"
+
+  # Service with special characters in URL
+  special-chars-repo:
+    remote: "https://user:pass@secure-git.example.com/"
+    revision: "release/v2.0"
+    path: "special/"
+    repository: "user/special-chars-repo"
+
+  # Service with multiple dashes and underscores
+  multi_dash_and_underscore-service:
+    remote: github
+    revision: "v1.0.0"
+    path: "multi/"
+    repository: "user/multi_dash_and_underscore-service"
+
+  # Service with URL containing port numbers
+  port-service:
+    remote: "https://git.example.com:8443/"
+    revision: "main"
+    path: "ports/"
+    repository: "user/port-service"

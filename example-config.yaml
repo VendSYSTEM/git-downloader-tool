@@ -1,0 +1,72 @@
+---
+# Example configuration demonstrating generic git repository support
+# This configuration showcases various git URL formats and remote handling
+
+# Remote definitions with nested URL structure
+remote:
+  default:
+    url: https://git.example.com/
+  github:
+    url: https://github.com/
+  gitlab:
+    url: https://gitlab.com/
+  bitbucket:
+    url: ssh://git@bitbucket.org/
+  # Custom remote for generic git support
+  custom-git:
+    url: https://custom-git-server.com/
+  # Local file system remote for testing
+  local:
+    url: /local/path/to/git/repositories/
+
+# Default values for repositories
+defaults:
+  remote: default # Default remote to use
+  revision: main # Default branch/tag to clone
+  path: "" # Default path for cloning
+
+# Repository definitions with various configurations and edge cases
+repos:
+  # ── HTTPS repository with custom remote ──────────────────────────────────
+  https-repo:
+    remote: github # Override remote to use GitHub
+    revision: develop # Override revision to use develop branch
+    path: "https/" # Override path with different prefix
+    repository: "user/https-repo" # Custom repository name
+
+  # ── SSH repository with custom remote ────────────────────────────────────
+  ssh-repo:
+    remote: bitbucket # Override remote to use BitBucket
+    revision: v2.0 # Override revision to use specific tag
+    path: "ssh/" # Override path to prefix with "ssh/"
+    repository: "user/ssh-repo" # Custom repository name
+
+  # ── Local repository with absolute path ──────────────────────────────────
+  local-repo:
+    remote: local # Override remote to use local file system
+    revision: master # Override revision to use master branch
+    path: "local/" # Override path to prefix with "local/"
+    repository: "user/local-repo" # Custom repository name
+
+  # ── Service with explicit URL override ───────────────────────────────────
+  external-repo:
+    remote: "https://git.example.com/" # Override remote with custom URL
+    path: "external/" # Override path to prefix with "external/"
+    repository: "external-org/external-repo" # Custom URL that differs from name
+
+  # ── Service with minimal configuration ───────────────────────────────────
+  minimal-service:
+    repository: "user/minimal-service" # Required field for repository name
+
+  # ── Service with zero-value configuration ────────────────────────────────
+  zero-config-service:
+    remote: github
+    revision: "" # Empty string for revision (should use default)
+    path: "custom/" # Custom path override
+    repository: "user/zero-config-service" # Custom repository name
+
+  # ── Service with special characters in name ──────────────────────────────
+  service-with-dashes_and_underscores:
+    remote: github
+    revision: "release/v1.0"
+    repository: "user/service-with-dashes_and_underscores" # Custom repository name

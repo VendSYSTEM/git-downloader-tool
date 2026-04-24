@@ -1,0 +1,9 @@
+---
+defaults:
+  remote: github
+  revision: main
+  path: ""
+
+repos:
+  test-repo:
+    repository: "user/test-repo"
