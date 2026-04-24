@@ -1,0 +1,124 @@
+---
+# Remote definitions with nested URL structure
+remote:
+  github:
+    url: https://github.com/
+  gitlab:
+    url: https://gitlab.com/
+  bitbucket:
+    url: https://bitbucket.org/
+
+# Default values for repositories
+defaults:
+  remote: github # Default remote to use
+  revision: main # Default branch/tag to clone
+  path: "" # Default path for cloning
+
+# Repository definitions with various configurations
+repos:
+  # ── Keycloak services ──────────────────────────────────────────────────
+  - name: keycloak-user-provider
+    # Uses default remote, revision, and path
+
+  - name: keycloak-secret-rotation
+    # Uses default remote, revision, and path
+
+    # ── Common libraries ───────────────────────────────────────────────────
+  - name: common-service
+    # Uses default remote, revision, and path
+
+  - name: common-scheduler
+    # Uses default remote, revision, and path
+
+    # ── Service definitions ────────────────────────────────────────────────
+  - name: service-pos-gateway
+    # Uses default remote, revision, and path
+
+  - name: service-inventory
+    # Uses default remote, revision, and path
+
+  - name: service-transaction
+    # Uses default remote, revision, and path
+
+  - name: service-notification
+    # Uses default remote, revision, and path
+
+  - name: service-log
+    # Uses default remote, revision, and path
+
+  - name: service-integration-gateway
+    # Uses default remote, revision, and path
+
+  - name: service-telemetry
+    # Uses default remote, revision, and path
+
+  - name: service-user
+    # Uses default remote, revision, and path
+
+  - name: service-file-storage
+    # Uses default remote, revision, and path
+
+    # ── Go services with custom configurations ──────────────────────────────
+  - name: warehouse-service
+    remote: github # Override remote to use GitHub
+    revision: main # Override revision to use main branch
+    path: services/ # Override path to prefix with "services/"
+    url: warehouse-service # Explicit URL (can be omitted if using name)
+
+  - name: api-gateway
+    remote: gitlab # Override remote to use GitLab
+    revision: develop # Override revision to use develop branch
+    path: "api/" # Override path with different prefix
+    url: "api/gateway" # Custom URL for repository
+
+  - name: legacy-service
+    remote: bitbucket # Override remote to use BitBucket
+    revision: v1.0 # Override revision to use specific tag
+    path: "legacy/" # Override path to prefix with "legacy/"
+
+  # ── Service with explicit URL override ───────────────────────────────────
+  - name: external-repo
+    remote: github
+    revision: main
+    path: ""
+    url: "external-org/external-repo" # Custom URL that differs from name
+
+  # ── Service with minimal configuration ───────────────────────────────────
+  - name: minimal-service
+    # Uses all defaults (github remote, main revision, no path)
+
+    # ── Service with zero-value configuration ────────────────────────────────
+  - name: zero-config-service
+    remote: github
+    revision: "" # Empty string for revision (should use default)
+    path: "custom/" # Custom path override
+
+  # ── Service with special characters in name ──────────────────────────────
+  - name: service-with-dashes_and_underscores
+    remote: github
+    revision: "release/v1.0"
+
+  # ── Service with no inheritance ──────────────────────────────────────────
+  - name: independent-service
+    remote: gitlab
+    revision: feature/new-feature
+    path: "features/"
+
+  # ── Service with complex path ────────────────────────────────────────────
+  - name: complex-path-service
+    remote: github
+    revision: main
+    path: "components/services/"
+
+  # ── Service with overridden remote that doesn't exist in defaults ──────────
+  - name: custom-remote-service
+    remote: "https://custom-git-server.com/"
+    revision: main
+    path: ""
+
+  # ── Service with all fields overridden to demonstrate flexibility ──────────
+  - name: fully-overridden-service
+    remote: gitlab
+    revision: v2.0.0
+    path: "production/"
+    url: "org/fully-overridden-service"
