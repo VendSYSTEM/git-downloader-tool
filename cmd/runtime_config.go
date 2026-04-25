@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"git-downloader-tool/config"
+	"github.com/VendSYSTEM/git-downloader-tool/config"
 
 	"github.com/spf13/cobra"
 )

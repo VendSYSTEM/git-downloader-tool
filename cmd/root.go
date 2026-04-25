@@ -3,7 +3,7 @@ package cmd
 import (
 	"os"
 
-	"git-downloader-tool/config"
+	"github.com/VendSYSTEM/git-downloader-tool/config"
 
 	"github.com/spf13/cobra"
 )

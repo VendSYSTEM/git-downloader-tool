@@ -1,8 +1,9 @@
 package main
 
 import (
-	"git-downloader-tool/cmd"
 	"log"
+
+	"github.com/VendSYSTEM/git-downloader-tool/cmd"
 )
 
 func main() {

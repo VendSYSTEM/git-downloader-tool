@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"git-downloader-tool/git"
+
+	"github.com/VendSYSTEM/git-downloader-tool/git"
 
 	"github.com/spf13/cobra"
 )

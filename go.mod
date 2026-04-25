@@ -1,4 +1,4 @@
-module git-downloader-tool
+module github.com/VendSYSTEM/git-downloader-tool
 
 go 1.25.4
 

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"git-downloader-tool/config"
+	"github.com/VendSYSTEM/git-downloader-tool/config"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
