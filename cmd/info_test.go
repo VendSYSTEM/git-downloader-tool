@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"git-downloader-tool/config"
+
 	"github.com/spf13/cobra"
 )
 

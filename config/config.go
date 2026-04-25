@@ -28,13 +28,13 @@ func (c *Config) MergeWithDefaults() error {
 	// Validate and set defaults for each repository
 	for name, repo := range c.Repos {
 		if repo.Remote == "" {
-			repo.Remote = c.Remotes[c.Default.Remote].URL
+			repo.Remote = c.Remotes[c.Defaults.Remote].URL
 		}
 		if repo.Revision == "" {
-			repo.Revision = c.Default.Revision
+			repo.Revision = c.Defaults.Revision
 		}
 		if repo.Path == "" {
-			repo.Path = c.Default.Path
+			repo.Path = c.Defaults.Path
 		}
 		c.Repos[name] = repo
 	}
@@ -44,12 +44,12 @@ func (c *Config) MergeWithDefaults() error {
 // Validate checks that the configuration is valid
 func (c *Config) Validate() error {
 	// Validate remote URLs, repository names, paths, etc.
-	if c.Default.Remote == "" {
+	if c.Defaults.Remote == "" {
 		return fmt.Errorf("defaults.remote is required")
 	}
 
-	if _, exists := c.Remotes[c.Default.Remote]; !exists {
-		return fmt.Errorf("default remote '%s' is not defined", c.Default.Remote)
+	if _, exists := c.Remotes[c.Defaults.Remote]; !exists {
+		return fmt.Errorf("default remote '%s' is not defined", c.Defaults.Remote)
 	}
 
 	for _, repo := range c.Repos {

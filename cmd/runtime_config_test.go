@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"git-downloader-tool/config"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -174,7 +175,7 @@ func TestRegisterDynamicOverrideFlags_UsesReposNamespace(t *testing.T) {
 		Remotes: map[string]config.Remote{
 			"origin": {URL: "https://example.com/"},
 		},
-		Default: config.Defaults{
+		Defaults: config.Defaults{
 			Remote:   "origin",
 			Revision: "main",
 			Path:     "repos",
@@ -221,7 +222,7 @@ func TestRegisterDynamicOverrideFlags_CanBeCalledTwice(t *testing.T) {
 		Remotes: map[string]config.Remote{
 			"origin": {URL: "https://example.com/"},
 		},
-		Default: config.Defaults{
+		Defaults: config.Defaults{
 			Remote:   "origin",
 			Revision: "main",
 			Path:     "repos",
@@ -274,7 +275,7 @@ func TestApplyDynamicOverrides_OnlyChangedFlags(t *testing.T) {
 		Remotes: map[string]config.Remote{
 			"origin": {URL: "https://example.com/"},
 		},
-		Default: config.Defaults{
+		Defaults: config.Defaults{
 			Remote:   "origin",
 			Revision: "main",
 			Path:     "repos",
@@ -308,7 +309,7 @@ func TestApplyDynamicOverrides_OnlyChangedFlags(t *testing.T) {
 		t.Fatalf("expected changed repo revision to be applied, got %q", got)
 	}
 
-	if got := loadedConfig.Default.Path; got != "repos" {
+	if got := loadedConfig.Defaults.Path; got != "repos" {
 		t.Fatalf("expected unchanged defaults.path to stay original, got %q", got)
 	}
 
@@ -328,7 +329,7 @@ func TestApplyDynamicOverrides_UsesChangedInheritedPersistentFlags(t *testing.T)
 		Remotes: map[string]config.Remote{
 			"origin": {URL: "https://example.com/"},
 		},
-		Default: config.Defaults{
+		Defaults: config.Defaults{
 			Remote:   "origin",
 			Revision: "main",
 			Path:     "repos",
@@ -351,7 +352,7 @@ func TestApplyDynamicOverrides_UsesChangedInheritedPersistentFlags(t *testing.T)
 
 	applyDynamicOverrides(subCmd, loadedConfig)
 
-	if got := loadedConfig.Default.Revision; got != "release" {
+	if got := loadedConfig.Defaults.Revision; got != "release" {
 		t.Fatalf("expected defaults.revision override from inherited flag, got %q", got)
 	}
 }
@@ -402,7 +403,7 @@ repos:
 		t.Fatalf("expected buildEffectiveConfig to succeed, got error: %v", err)
 	}
 
-	if got := effective.Default.Revision; got != "release" {
+	if got := effective.Defaults.Revision; got != "release" {
 		t.Fatalf("expected defaults.revision override to be applied, got %q", got)
 	}
 
@@ -652,7 +653,7 @@ func TestBuildEffectiveConfig_DynamicRegistrationPrecedenceRegression(t *testing
 		t.Fatalf("expected preregistered repos.beta.path override to win, got %q", got)
 	}
 
-	if got := effective.Default.Revision; got != "release-from-arg" {
+	if got := effective.Defaults.Revision; got != "release-from-arg" {
 		t.Fatalf("expected preregistered defaults.revision override to win, got %q", got)
 	}
 

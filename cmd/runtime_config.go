@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"git-downloader-tool/config"
+
 	"github.com/spf13/cobra"
 )
 
@@ -128,9 +129,9 @@ func registerDynamicOverrideFlags(cmd *cobra.Command, loadedConfig *config.Confi
 		)
 	}
 
-	registerStringPersistentFlag(cmd, "defaults.remote", loadedConfig.Default.Remote, "[DYNAMIC] Override defaults.remote")
-	registerStringPersistentFlag(cmd, "defaults.revision", loadedConfig.Default.Revision, "[DYNAMIC] Override defaults.revision")
-	registerStringPersistentFlag(cmd, "defaults.path", loadedConfig.Default.Path, "[DYNAMIC] Override defaults.path")
+	registerStringPersistentFlag(cmd, "defaults.remote", loadedConfig.Defaults.Remote, "[DYNAMIC] Override defaults.remote")
+	registerStringPersistentFlag(cmd, "defaults.revision", loadedConfig.Defaults.Revision, "[DYNAMIC] Override defaults.revision")
+	registerStringPersistentFlag(cmd, "defaults.path", loadedConfig.Defaults.Path, "[DYNAMIC] Override defaults.path")
 
 	for repoName, repoConfig := range loadedConfig.Repos {
 		registerStringPersistentFlag(
@@ -183,15 +184,15 @@ func applyDynamicOverrides(cmd *cobra.Command, loadedConfig *config.Config) {
 	}
 
 	if value, ok := getChangedStringFlag(cmd, "defaults.remote"); ok {
-		loadedConfig.Default.Remote = value
+		loadedConfig.Defaults.Remote = value
 	}
 
 	if value, ok := getChangedStringFlag(cmd, "defaults.revision"); ok {
-		loadedConfig.Default.Revision = value
+		loadedConfig.Defaults.Revision = value
 	}
 
 	if value, ok := getChangedStringFlag(cmd, "defaults.path"); ok {
-		loadedConfig.Default.Path = value
+		loadedConfig.Defaults.Path = value
 	}
 
 	for repoName, repoConfig := range loadedConfig.Repos {

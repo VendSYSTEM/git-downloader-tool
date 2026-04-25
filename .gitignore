@@ -1,3 +1,6 @@
 services
 git-downloader-tool
 config.yaml
+.worktrees/
+coverage.out
+coverage.html

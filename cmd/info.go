@@ -18,7 +18,7 @@ var infoCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Config loaded from %s\n", cfgFile)
-		fmt.Printf("Defaults: remote=%s, revision=%s, path=%s\n", cfg.Default.Remote, cfg.Default.Revision, cfg.Default.Path)
+		fmt.Printf("Defaults: remote=%s, revision=%s, path=%s\n", cfg.Defaults.Remote, cfg.Defaults.Revision, cfg.Defaults.Path)
 		fmt.Printf("Repos: %d found\n", len(cfg.Repos))
 		for name, repo := range cfg.Repos {
 			fmt.Printf("- %s: remote=%s, revision=%s, path=%s\n", name, repo.Remote, repo.Revision, repo.Path)

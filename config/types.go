@@ -22,7 +22,7 @@ type Repository struct {
 
 // Config represents the overall configuration structure
 type Config struct {
-	Remotes map[string]Remote     `yaml:"remote"`
-	Default Defaults              `yaml:"defaults"`
-	Repos   map[string]Repository `yaml:"repos"`
+	Remotes  map[string]Remote     `yaml:"remotes"`
+	Defaults Defaults              `yaml:"defaults"`
+	Repos    map[string]Repository `yaml:"repos"`
 }

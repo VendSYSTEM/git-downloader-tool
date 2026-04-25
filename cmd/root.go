@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"git-downloader-tool/config"
+
 	"github.com/spf13/cobra"
 )
 
@@ -11,9 +12,9 @@ var (
 	cfgFile string
 	verbose bool
 	cfg     = config.Config{
-		Remotes: make(map[string]config.Remote),
-		Default: config.Defaults{},
-		Repos:   make(map[string]config.Repository),
+		Remotes:  make(map[string]config.Remote),
+		Defaults: config.Defaults{},
+		Repos:    make(map[string]config.Repository),
 	}
 
 	rootCmd = &cobra.Command{
