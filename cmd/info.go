@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"git-downloader-tool/config"
 
 	"github.com/spf13/cobra"
 )
@@ -12,24 +11,9 @@ var infoCmd = &cobra.Command{
 	Short: "Display information about repositories",
 	Long:  `Show details about the repositories defined in the configuration file.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Load config
-		cfg, err := config.LoadConfig(cfgFile)
+		cfg, err := buildEffectiveConfig(cmd)
 		if err != nil {
-			fmt.Printf("Error loading config: %v\n", err)
-			return
-		}
-
-		// Merge with defaults
-		err = cfg.MergeWithDefaults()
-		if err != nil {
-			fmt.Printf("Error merging config: %v\n", err)
-			return
-		}
-
-		// Validate config
-		err = cfg.Validate()
-		if err != nil {
-			fmt.Printf("Error validating config: %v\n", err)
+			fmt.Printf("%s\n", runtimeConfigErrorMessage(err))
 			return
 		}
 

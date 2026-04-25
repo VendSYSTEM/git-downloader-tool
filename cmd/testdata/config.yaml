@@ -1,0 +1,24 @@
+remote:
+  origin:
+    url: https://github.com/
+  mirror:
+    url: https://mirror.example.com/
+
+defaults:
+  remote: origin
+  revision: main
+  path: repos-default
+
+repos:
+  api-gateway:
+    remote: origin
+    repository: team/api-gateway.git
+    revision: main
+    path: services/api-gateway
+  alpha:
+    remote: mirror
+    repository: team/alpha.git
+    revision: release-candidate
+    path: custom/alpha
+  beta:
+    repository: team/beta.git
