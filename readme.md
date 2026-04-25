@@ -5,7 +5,7 @@ A command-line tool for managing multiple git repositories through YAML configur
 ## Features
 
 - Clone repositories from configuration
-- Update repositories to latest commits  
+- Update repositories to latest commits
 - Cleanup repositories with optional filtering
 - Support for HTTPS, SSH, and local git repositories
 - Generic git remote support with custom URLs
@@ -40,11 +40,12 @@ Configuration is managed through YAML files with the following structure:
 
 ### Root Elements
 
-#### `remote` 
+#### `remotes`
+
 Defines named git remote endpoints with URLs. Can be overridden per repository or via CLI.
 
 ```yaml
-remote:
+remotes:
   github:
     url: https://github.com/
   gitlab:
@@ -54,6 +55,7 @@ remote:
 ```
 
 #### `defaults`
+
 Default values for repository configurations:
 
 ```yaml
@@ -64,6 +66,7 @@ defaults:
 ```
 
 #### `repos`
+
 Repository definitions with various configurations:
 
 ```yaml
@@ -78,8 +81,9 @@ repos:
 ### Configuration Examples
 
 #### Basic Configuration
+
 ```yaml
-remote:
+remotes:
   github:
     url: https://github.com/
 
@@ -97,8 +101,9 @@ repos:
 ```
 
 #### Advanced Configuration with Multiple Remotes
+
 ```yaml
-remote:
+remotes:
   default:
     url: https://git.example.com/
   github:
@@ -119,13 +124,13 @@ repos:
     revision: develop
     path: "https/"
     repository: "user/https-repo"
-  
+
   ssh-repo:
     remote: bitbucket
     revision: v2.0
     path: "ssh/"
     repository: "user/ssh-repo"
-  
+
   local-repo:
     remote: "/local/path/to/repositories/"
     revision: master
@@ -136,39 +141,47 @@ repos:
 ### Feature Support
 
 #### Git URL Formats
+
 The tool supports various git URL formats:
+
 - HTTPS: `https://github.com/user/repo.git`
-- SSH: `ssh://git@github.com/user/repo.git` 
+- SSH: `ssh://git@github.com/user/repo.git`
 - Local paths: `/local/path/to/repositories/`
 
 #### Remote Handling
-1. Named remotes defined in `remote` section can be referenced by name
+
+1. Named remotes defined in `remotes` section can be referenced by name
 2. Direct URL overrides are supported for custom git servers
 3. Custom remote URLs can be specified directly in repository configuration
 
 #### Default Value Inheritance
+
 - Repositories inherit default values when not explicitly set
 - Empty strings for revision fall back to default values
 - Path handling follows specification requirements
 
 #### CLI Override Support
+
 All configuration options can be overridden via command line:
+
 - `--remote.<name>.url=...` - Set remote URLs
 - `--defaults.remote=...` - Override default remote
-- `--defaults.revision=...` - Override default revision  
+- `--defaults.revision=...` - Override default revision
 - `--defaults.path=...` - Override default path
 - `--repos.<name>.<field>=...` - Override repository fields
 
 ## Commands
 
 ### Clone
+
 Clone repositories according to configuration file:
 
 ```bash
 git-downloader-tool clone
 ```
 
-### Update  
+### Update
+
 Update existing repositories based on configuration file:
 
 ```bash
@@ -176,6 +189,7 @@ git-downloader-tool update
 ```
 
 ### Cleanup
+
 Remove repositories that are no longer defined in the configuration:
 
 ```bash
@@ -189,7 +203,7 @@ git-downloader-tool cleanup
 - `--remote.<name>.url=...`: Override remote URL via CLI
 - `--defaults.remote=...`: Override default remote via CLI
 - `--defaults.revision=...`: Override default revision via CLI
-- `--defaults.path=...`: Override default path via CLI  
+- `--defaults.path=...`: Override default path via CLI
 - `--repos.<name>.<field>=...`: Override repository field via CLI
 
 ## Testing Approach
@@ -218,6 +232,7 @@ The tool includes comprehensive tests covering:
 ### Test Configuration Examples
 
 The project includes test configurations:
+
 - `example-config.yaml` - Example configuration demonstrating features
 - `test-full-config.yaml` - Comprehensive test configuration with edge cases
 - `test-config.yaml` - Minimal test configuration
@@ -225,7 +240,7 @@ The project includes test configurations:
 ## Security Considerations
 
 1. Validate remote URLs to prevent malicious redirects
-2. Proper handling of SSH and HTTPS protocols  
+2. Proper handling of SSH and HTTPS protocols
 3. Input validation for repository names and paths
 4. Configuration file security (no environment variable interpolation)
 5. Secure handling of credentials if needed
@@ -238,13 +253,47 @@ The project includes test configurations:
 
 ## Development
 
-### Building
+### Taskfile workflow (`Taskfile.yml`)
+
+This repository includes a development taskfile at `Taskfile.yml`.
+
+Prerequisites:
+
+- Go `1.25+`
+- Task (go-task) `3.x`
+- System tools available in `PATH`: `git`, `tar`, `zip`, `shasum`
+
+Use it with:
+
+```bash
+task <task>
+```
+
+Common tasks:
+
+- `build` - Build a local binary to `dist/bin/`
+- `build:multiarch` - Build linux/darwin/windows binaries for amd64 and arm64 to `dist/multiarch/`
+- `test` - Run `go test ./...`
+- `coverage` - Generate `dist/coverage.out` and `dist/coverage.html`
+- `verify` - Run gofmt check, `go vet`, and tests
+- `govuln` - Run `govulncheck ./...` (auto-installs if missing)
+- `release` - Run clean + verify + coverage + govuln + multiarch builds, package archives and checksums in `dist/release/`
+
+Examples:
+
+```bash
+task verify
+task coverage
+task release
+```
+
+### Building (manual)
 
 ```bash
 go build -o git-downloader-tool main.go
 ```
 
-### Running Tests
+### Running Tests (manual)
 
 ```bash
 go test ./...
@@ -253,8 +302,9 @@ go test ./...
 ### Documentation Generation
 
 Documentation is maintained in:
+
 - `README.md` - Main documentation
-- `specification.md` - Implementation specification  
+- `specification.md` - Implementation specification
 - `requirements.md` - Requirements specification
 
 ## Contributing

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"log"
 	"git-downloader-tool/cmd"
+	"log"
 )
 
 func main() {

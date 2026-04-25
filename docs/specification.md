@@ -1,16 +1,20 @@
 # Git Downloader Tool Implementation Specification
 
 ## Overview
+
 This specification outlines the implementation requirements for a git repository downloader tool called `git-downloader-tool` that supports generic git repositories with flexible configuration options. The implementation will be written in Go using Cobra for CLI handling and YAML parsing for configuration files.
 
 ## Configuration Structure
 
 ### Remote Definitions
+
 The tool supports generic git repositories defined in a nested structure:
+
 - `default`: Base URL for git repositories (e.g., https://git.example.com/)
 
 Each remote can be overridden per repository or via command-line interface.
 Remote URLs can be specified in three formats:
+
 1. HTTPS: `https://git.example.com/`
 2. SSH: `ssh://git@github.com/`
 3. Local paths: `/path/to/repositories/`
@@ -18,13 +22,17 @@ Remote URLs can be specified in three formats:
 Each remote can be overridden per repository or via command-line interface.
 
 ### Default Values
+
 The tool provides default values for repositories:
+
 - `remote`: Default remote platform (default: github)
 - `revision`: Default branch/tag to clone (default: main)
 - `path`: Default path for cloning (default: "")
 
 ### Repository Definitions
+
 Each repository can be defined with key and value pairs:
+
 - `key`: As repository name (e.g., `my-repo`)
 - `value`: Object containing repository-specific configuration options:
   - `remote`: Override remote platform (optional, defaults to defaults.remote, if set to a custom URL, it will be used as-is)
@@ -35,6 +43,7 @@ Each repository can be defined with key and value pairs:
 ## Feature Requirements
 
 ### Configuration Handling
+
 1. Support configuration from YAML files with nested structure using go-yaml library
 2. Allow CLI overrides for all configuration options using Cobra
 3. Handle inheritance from default values when not explicitly set
@@ -47,18 +56,21 @@ Each repository can be defined with key and value pairs:
 10. Validate and enforce working directory paths according to specification
 
 ### Repository Processing
+
 1. Process repositories in the order they appear in configuration
 2. Support special characters in repository names (dashes, underscores)
 3. Handle complex path structures
 4. Support URL overrides that differ from repository name
 
 ### Remote Platform Support
+
 1. HTTPS git repositories with URLs like `https://git.example.com/`
 2. SSH git repositories with URLs like `ssh://git@github.com/`
 3. Local repository paths like `/path/to/repositories/`
 4. Support for all git URL formats in configuration
 
 ### CLI Integration
+
 1. Allow setting remote URLs via CLI: `--remote.<name>.url=...`
 2. Allow overriding defaults via CLI: `--defaults.remote=...`, `--defaults.revision=...`, `--defaults.path=...`
 3. Allow overriding repository settings via CLI: `--repos.<name>.<field>=...`
@@ -66,13 +78,16 @@ Each repository can be defined with key and value pairs:
 ## Implementation Details
 
 ### Technology Stack
+
 1. Language: Go (Golang)
 2. CLI Framework: Cobra
 3. YAML Parsing: go-yaml library
 4. Git Operations: pure git commands executed via os/exec
 
 ### Command Structure
+
 The tool will support three main commands:
+
 1. `clone` - Clone repositories according to configuration file
 2. `update` - Update existing repositories based on configuration file
 3. `cleanup` - Remove repositories that are no longer defined in the configuration
@@ -80,6 +95,7 @@ The tool will support three main commands:
 All commands will operate in the same working directory, with the clone command creating new repositories and the update command ensuring existing repositories match the configuration.
 
 ### Configuration Merging Strategy
+
 1. Start with default configuration values
 2. Apply repository-specific overrides
 3. Apply CLI overrides (highest priority)
@@ -89,6 +105,7 @@ All commands will operate in the same working directory, with the clone command 
 5. Validate configuration after merging
 
 ### Repository Processing Flow
+
 1. Parse configuration file
 2. Validate repository definitions
 3. Merge with default values where needed
@@ -100,6 +117,7 @@ All commands will operate in the same working directory, with the clone command 
 6. Generate clone/update commands for each repository based on command mode (clone or update)
 
 ### Error Handling
+
 1. Validate remote URLs are properly formatted
 2. Handle invalid repository names gracefully
 3. Provide clear error messages for configuration issues
@@ -107,6 +125,7 @@ All commands will operate in the same working directory, with the clone command 
 ## Examples from Configuration Files
 
 ### Example Configuration 1 (example-config.yaml)
+
 - Repository: `https-repo` with GitHub remote, develop branch, https/ path prefix
 - Repository: `ssh-repo` with BitBucket remote, v2.0 tag, ssh/ path prefix
 - Repository: `local-repo` with local path, master branch, local/ path prefix
@@ -132,12 +151,14 @@ All commands will operate in the same working directory, with the clone command 
 - Repository: `port-service` with port in URL, main branch, ports/ path prefix
 
 ### Example Configuration 2 (requirements.md)
+
 - Default remote: github
 - Default revision: main
 - Default path: "services/"
 - Repository: `api-gateway` with GitLab remote, develop branch, api/ path prefix, custom URL
 
 ### New Example Configuration (generic git support)
+
 - Default remote: https://git.example.com/
 - Default revision: main
 - Default path: "repos/"
@@ -147,6 +168,7 @@ All commands will operate in the same working directory, with the clone command 
 - Repository: `custom-repo` with custom git server URL, feature branch, custom/ path prefix
 
 ## Testing Requirements
+
 1. Validate configuration file parsing with various YAML structures
 2. Test all git URL formats (HTTPS, SSH, local paths)
 3. Verify default value inheritance
@@ -165,11 +187,13 @@ All commands will operate in the same working directory, with the clone command 
 16. Test command mode switching (clone vs update)
 
 ## Performance Considerations
+
 1. Support concurrent repository cloning where appropriate
 2. Efficient configuration parsing and validation
 3. Minimal memory usage for large configurations
 
 ## Security Considerations
+
 1. Validate remote URLs to prevent malicious redirects
 2. Proper handling of SSH and HTTPS protocols
 3. Secure storage and handling of credentials (if applicable)

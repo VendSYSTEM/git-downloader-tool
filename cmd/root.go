@@ -33,11 +33,8 @@ through YAML configuration files. It supports clone, update, and cleanup operati
 )
 
 func init() {
-	cobra.OnInitialize(initConfig)
+	// cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "config.yaml", "[DYNAMIC] config file")
-}
-
-func initConfig() {
 }
 
 func Execute() error {

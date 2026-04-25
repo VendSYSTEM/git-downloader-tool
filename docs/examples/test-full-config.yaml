@@ -1,7 +1,7 @@
 ---
 # Full configuration testing all features from the specification
 
-remote:
+remotes:
   default:
     url: https://git.example.com/
   github:

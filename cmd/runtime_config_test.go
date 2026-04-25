@@ -361,7 +361,7 @@ func TestBuildEffectiveConfig_LoadApplyMergeValidate(t *testing.T) {
 	tempDir := t.TempDir()
 	configPath := filepath.Join(tempDir, "config.yaml")
 
-	configContents := []byte(`remote:
+	configContents := []byte(`remotes:
   origin:
     url: https://example.com/
 defaults:
@@ -437,7 +437,7 @@ func TestBuildEffectiveConfig_WrapsValidateStageErrors(t *testing.T) {
 	tempDir := t.TempDir()
 	configPath := filepath.Join(tempDir, "config.yaml")
 
-	configContents := []byte(`remote:
+	configContents := []byte(`remotes:
   origin:
     url: https://example.com/
 defaults:

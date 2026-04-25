@@ -3,7 +3,7 @@
 # This configuration showcases various git URL formats and remote handling
 
 # Remote definitions with nested URL structure
-remote:
+remotes:
   default:
     url: https://git.example.com/
   github:

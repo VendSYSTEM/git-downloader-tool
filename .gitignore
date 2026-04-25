@@ -4,3 +4,4 @@ config.yaml
 .worktrees/
 coverage.out
 coverage.html
+.dist

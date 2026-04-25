@@ -1,0 +1,124 @@
+version: "3"
+
+vars:
+  BINARY_NAME: git-downloader-tool
+  DIST_DIR: dist
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo dev
+
+tasks:
+  default:
+    desc: Run standard verification checks.
+    cmds:
+      - task verify
+
+  clean:
+    desc: Remove generated build and coverage artifacts.
+    cmds:
+      - rm -rf {{.DIST_DIR}}
+
+  build:
+    desc: Build a local development binary.
+    cmds:
+      - mkdir -p {{.DIST_DIR}}/bin
+      - go build -o {{.DIST_DIR}}/bin/{{.BINARY_NAME}} ./
+
+  build:multiarch:
+    desc: Build binaries for linux, darwin, and windows (amd64/arm64).
+    cmds:
+      - mkdir -p {{.DIST_DIR}}/multiarch
+      - |
+        set -eu
+        for target in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 windows/amd64 windows/arm64; do
+          GOOS="${target%/*}"
+          GOARCH="${target#*/}"
+          ext=""
+          if [ "$GOOS" = "windows" ]; then
+            ext=".exe"
+          fi
+
+          output="{{.DIST_DIR}}/multiarch/{{.BINARY_NAME}}_{{.VERSION}}_${GOOS}_${GOARCH}${ext}"
+          echo "building ${output}"
+          GOOS="$GOOS" GOARCH="$GOARCH" CGO_ENABLED=0 go build -o "$output" ./
+        done
+
+  test:
+    desc: Run all unit and integration tests.
+    cmds:
+      - go test ./...
+
+  coverage:
+    desc: Generate coverage profile and HTML report.
+    cmds:
+      - mkdir -p {{.DIST_DIR}}
+      - go test ./... -coverprofile={{.DIST_DIR}}/coverage.out
+      - go tool cover -func={{.DIST_DIR}}/coverage.out
+      - go tool cover -html={{.DIST_DIR}}/coverage.out -o {{.DIST_DIR}}/coverage.html
+
+  fmt:check:
+    desc: Fail if gofmt would change files.
+    cmds:
+      - |
+        set -eu
+        unformatted="$(gofmt -l .)"
+        if [ -n "$unformatted" ]; then
+          echo "gofmt found unformatted files:"
+          printf '%s\n' "$unformatted"
+          exit 1
+        fi
+
+  vet:
+    desc: Run go vet checks.
+    cmds:
+      - go vet ./...
+
+  verify:
+    desc: Run formatting, vet, and tests.
+    deps:
+      - fmt:check
+      - vet
+      - test
+
+  govuln:
+    desc: Run govulncheck (installs tool if needed).
+    cmds:
+      - |
+        set -eu
+        GOVULNCHECK_BIN="$(command -v govulncheck || true)"
+        if [ -z "$GOVULNCHECK_BIN" ]; then
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          GOBIN_VALUE="$(go env GOBIN)"
+          if [ -n "$GOBIN_VALUE" ]; then
+            GOVULNCHECK_BIN="$GOBIN_VALUE/govulncheck"
+          else
+            GOVULNCHECK_BIN="$(go env GOPATH)/bin/govulncheck"
+          fi
+        fi
+        "$GOVULNCHECK_BIN" ./...
+
+  release:
+    desc: Run full release workflow and package multiarch artifacts.
+    cmds:
+      - task clean
+      - task verify
+      - task coverage
+      - task govuln
+      - task build:multiarch
+      - mkdir -p {{.DIST_DIR}}/release
+      - |
+        set -eu
+        for binary_path in {{.DIST_DIR}}/multiarch/*; do
+          filename="$(basename "$binary_path")"
+          if [ "${filename##*.}" = "exe" ]; then
+            archive_name="${filename%.exe}.zip"
+            zip -j "{{.DIST_DIR}}/release/$archive_name" "$binary_path" >/dev/null
+          else
+            archive_name="${filename}.tar.gz"
+            tar -czf "{{.DIST_DIR}}/release/$archive_name" -C "{{.DIST_DIR}}/multiarch" "$filename"
+          fi
+        done
+      - |
+        set -eu
+        cd {{.DIST_DIR}}/release
+        shasum -a 256 * > checksums.txt
+      - echo "release artifacts are available in {{.DIST_DIR}}/release"

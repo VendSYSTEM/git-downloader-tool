@@ -2,7 +2,7 @@
 
 ```yaml
 ---
-remote:
+remotes:
   # Name of the urls to use for cloning repositories (can be overridden per repo and in cli `--remote.<name>.url=...`); new repo can be created from CLI with `--remote.<name>.url=...`.
   github:
     # default URL for GitHub (can be overridden per repository)
