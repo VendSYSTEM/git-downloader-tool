@@ -80,6 +80,20 @@ func TestResolveRepositoryRemote_ReplacesNamedRemoteWithURL(t *testing.T) {
 	}
 }
 
+func TestResolveRepositoryRemote_PreservesRepoWhenConfigNil(t *testing.T) {
+	repo := config.Repository{
+		Remote:     "origin",
+		Repository: "team/tool.git",
+		Path:       "repos",
+	}
+
+	resolved := resolveRepositoryRemote(nil, repo)
+
+	if resolved != repo {
+		t.Fatalf("expected nil config to preserve repo, got %#v", resolved)
+	}
+}
+
 func TestResolveRepositoryRemote_PreservesDirectRemoteURL(t *testing.T) {
 	cfg := &config.Config{
 		Remotes: map[string]config.Remote{
