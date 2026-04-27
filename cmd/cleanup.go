@@ -23,7 +23,7 @@ var cleanupCmd = &cobra.Command{
 		for name, repo := range cfg.Repos {
 			fmt.Printf("Cleaning repository %s...\n", name)
 
-			err := git.CleanupRepository(repo.Path + "/" + name)
+			err := git.CleanupRepository(repo, name)
 			if err != nil {
 				fmt.Printf("Error cleaning %s: %v\n", name, err)
 				continue

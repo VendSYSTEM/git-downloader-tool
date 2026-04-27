@@ -6,15 +6,22 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/VendSYSTEM/git-downloader-tool/config"
 )
 
 func TestCloneRepository_ReturnsNilWhenTargetExists(t *testing.T) {
-	existingPath := filepath.Join(t.TempDir(), "existing")
+	tempDir := t.TempDir()
+	existingPath := filepath.Join(tempDir, "existing")
 	if err := os.MkdirAll(existingPath, 0o755); err != nil {
 		t.Fatalf("failed creating existing target path: %v", err)
 	}
 
-	err := CloneRepository("https://example.com/does-not-matter.git", existingPath)
+	err := CloneRepository(config.Repository{
+		Remote:     "https://example.com/",
+		Repository: "does-not-matter.git",
+		Path:       tempDir,
+	}, "existing")
 	if err != nil {
 		t.Fatalf("expected existing target path to short-circuit clone, got %v", err)
 	}
@@ -25,7 +32,10 @@ func TestCloneRepository_SucceedsWithLocalRepository(t *testing.T) {
 	sourceRepo := createCommittedRepo(t, tempDir)
 	clonePath := filepath.Join(tempDir, "cloned")
 
-	err := CloneRepository(sourceRepo, clonePath)
+	err := CloneRepository(config.Repository{
+		Remote: sourceRepo,
+		Path:   tempDir,
+	}, "cloned")
 	if err != nil {
 		t.Fatalf("expected clone from local repository to succeed, got %v", err)
 	}
@@ -37,7 +47,10 @@ func TestCloneRepository_SucceedsWithLocalRepository(t *testing.T) {
 
 func TestCloneRepository_ReturnsErrorWhenCloneFails(t *testing.T) {
 	tempDir := t.TempDir()
-	err := CloneRepository(filepath.Join(tempDir, "missing-source"), filepath.Join(tempDir, "dest"))
+	err := CloneRepository(config.Repository{
+		Remote: filepath.Join(tempDir, "missing-source"),
+		Path:   tempDir,
+	}, "dest")
 	if err == nil {
 		t.Fatalf("expected clone failure for missing source path, got nil")
 	}
@@ -50,13 +63,15 @@ func TestCloneRepository_ReturnsErrorWhenCloneFails(t *testing.T) {
 func TestUpdateRepository_SucceedsForValidGitRepository(t *testing.T) {
 	tempDir := t.TempDir()
 	sourceRepo := createCommittedRepo(t, tempDir)
-	clonePath := filepath.Join(tempDir, "cloned")
 
-	if err := CloneRepository(sourceRepo, clonePath); err != nil {
+	if err := CloneRepository(config.Repository{
+		Remote: sourceRepo,
+		Path:   tempDir,
+	}, "cloned"); err != nil {
 		t.Fatalf("failed cloning local fixture repository: %v", err)
 	}
 
-	err := UpdateRepository(clonePath)
+	err := UpdateRepository(config.Repository{Path: tempDir}, "cloned")
 	if err != nil {
 		t.Fatalf("expected git pull to succeed for valid clone, got %v", err)
 	}
@@ -68,7 +83,7 @@ func TestUpdateRepository_ReturnsErrorForNonRepositoryPath(t *testing.T) {
 		t.Fatalf("failed creating non-repo path: %v", err)
 	}
 
-	err := UpdateRepository(nonRepoPath)
+	err := UpdateRepository(config.Repository{Path: filepath.Dir(nonRepoPath)}, filepath.Base(nonRepoPath))
 	if err == nil {
 		t.Fatalf("expected update failure for non-repository path, got nil")
 	}
@@ -79,14 +94,15 @@ func TestUpdateRepository_ReturnsErrorForNonRepositoryPath(t *testing.T) {
 }
 
 func TestCleanupRepository_ReturnsNilWhenPathDoesNotExist(t *testing.T) {
-	err := CleanupRepository(filepath.Join(t.TempDir(), "missing"))
+	err := CleanupRepository(config.Repository{Path: t.TempDir()}, "missing")
 	if err != nil {
 		t.Fatalf("expected cleanup of missing path to be a no-op, got %v", err)
 	}
 }
 
 func TestCleanupRepository_RemovesExistingDirectory(t *testing.T) {
-	targetPath := filepath.Join(t.TempDir(), "to-delete")
+	tempDir := t.TempDir()
+	targetPath := filepath.Join(tempDir, "to-delete")
 	if err := os.MkdirAll(targetPath, 0o755); err != nil {
 		t.Fatalf("failed creating target path: %v", err)
 	}
@@ -95,13 +111,43 @@ func TestCleanupRepository_RemovesExistingDirectory(t *testing.T) {
 		t.Fatalf("failed writing artifact file: %v", err)
 	}
 
-	err := CleanupRepository(targetPath)
+	err := CleanupRepository(config.Repository{Path: tempDir}, "to-delete")
 	if err != nil {
 		t.Fatalf("expected cleanup to remove existing directory, got %v", err)
 	}
 
 	if _, err := os.Stat(targetPath); !os.IsNotExist(err) {
 		t.Fatalf("expected cleanup target to be removed, stat err: %v", err)
+	}
+}
+
+func TestCleanupRepository_EmptyPathUsesCurrentWorkingDirectory(t *testing.T) {
+	tempDir := t.TempDir()
+	previousDir, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("failed getting current working directory: %v", err)
+	}
+	if err := os.Chdir(tempDir); err != nil {
+		t.Fatalf("failed changing working directory: %v", err)
+	}
+	t.Cleanup(func() {
+		if err := os.Chdir(previousDir); err != nil {
+			t.Fatalf("failed restoring working directory: %v", err)
+		}
+	})
+
+	targetPath := filepath.Join(tempDir, "to-delete")
+	if err := os.MkdirAll(targetPath, 0o755); err != nil {
+		t.Fatalf("failed creating target path: %v", err)
+	}
+
+	err = CleanupRepository(config.Repository{Path: ""}, "to-delete")
+	if err != nil {
+		t.Fatalf("expected cleanup to remove relative target, got %v", err)
+	}
+
+	if _, err := os.Stat(targetPath); !os.IsNotExist(err) {
+		t.Fatalf("expected relative cleanup target to be removed, stat err: %v", err)
 	}
 }
 
