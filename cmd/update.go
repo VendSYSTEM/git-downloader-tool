@@ -24,7 +24,7 @@ var updateCmd = &cobra.Command{
 			fmt.Printf("Updating repository %s...\n", name)
 
 			// Update the repository
-			err := git.UpdateRepository(repo.Path + "/" + name)
+			err := git.UpdateRepository(repo, name)
 			if err != nil {
 				fmt.Printf("Error updating %s: %v\n", name, err)
 				continue

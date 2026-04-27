@@ -5,6 +5,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/VendSYSTEM/git-downloader-tool/config"
+
 	"github.com/spf13/cobra"
 )
 
@@ -54,6 +56,68 @@ func TestRegisterDynamicOverrideFlags_NilInputsAreNoOps(t *testing.T) {
 func TestApplyDynamicOverrides_NilInputsAreNoOps(t *testing.T) {
 	applyDynamicOverrides(nil, nil)
 	applyDynamicOverrides(&cobra.Command{Use: "test"}, nil)
+}
+
+func TestResolveRepositoryRemote_ReplacesNamedRemoteWithURL(t *testing.T) {
+	cfg := &config.Config{
+		Remotes: map[string]config.Remote{
+			"origin": {URL: "https://github.com/"},
+		},
+	}
+	repo := config.Repository{
+		Remote:     "origin",
+		Repository: "team/tool.git",
+		Path:       "repos",
+	}
+
+	resolved := resolveRepositoryRemote(cfg, repo)
+
+	if resolved.Remote != "https://github.com/" {
+		t.Fatalf("expected named remote to resolve to URL, got %q", resolved.Remote)
+	}
+	if resolved.Repository != repo.Repository {
+		t.Fatalf("expected repository value to be preserved, got %q", resolved.Repository)
+	}
+}
+
+func TestResolveRepositoryRemote_PreservesRepoWhenConfigNil(t *testing.T) {
+	repo := config.Repository{
+		Remote:     "origin",
+		Repository: "team/tool.git",
+		Path:       "repos",
+	}
+
+	resolved := resolveRepositoryRemote(nil, repo)
+
+	if resolved != repo {
+		t.Fatalf("expected nil config to preserve repo, got %#v", resolved)
+	}
+}
+
+func TestResolveRepositoryRemote_PreservesDirectRemoteURL(t *testing.T) {
+	cfg := &config.Config{
+		Remotes: map[string]config.Remote{
+			"origin": {URL: "https://github.com/"},
+		},
+	}
+	repo := config.Repository{
+		Remote:     "https://git.example.com/",
+		Repository: "team/tool.git",
+		Path:       "repos",
+	}
+
+	resolved := resolveRepositoryRemote(cfg, repo)
+
+	if resolved.Remote != "https://git.example.com/" {
+		t.Fatalf("expected direct remote URL to be preserved, got %q", resolved.Remote)
+	}
+}
+
+func TestRepositoryClonePath_EmptyPathUsesRelativeRepositoryName(t *testing.T) {
+	got := repositoryClonePath(config.Repository{Path: ""}, "tool")
+	if got != "tool" {
+		t.Fatalf("expected empty base path to use relative repository name, got %q", got)
+	}
 }
 
 func TestGetChangedStringFlag_SupportsCommandFlagsAndAbsentFlags(t *testing.T) {
