@@ -1,0 +1,127 @@
+{
+  "/home/mg/vend/git-downloader-tool/main.go": {
+    "mtime": 1783488113.491559,
+    "ast_hash": "4fd505000b576d65166eca0541433dd8",
+    "semantic_hash": "4fd505000b576d65166eca0541433dd8"
+  },
+  "/home/mg/vend/git-downloader-tool/main_test.go": {
+    "mtime": 1783488113.491559,
+    "ast_hash": "a1de190de68bc6599be35e4d13f723c7",
+    "semantic_hash": "a1de190de68bc6599be35e4d13f723c7"
+  },
+  "/home/mg/vend/git-downloader-tool/config/config_test.go": {
+    "mtime": 1783488113.4898908,
+    "ast_hash": "1fcd33dab391d9e4c64b3da69dc3d635",
+    "semantic_hash": "1fcd33dab391d9e4c64b3da69dc3d635"
+  },
+  "/home/mg/vend/git-downloader-tool/config/types.go": {
+    "mtime": 1783488113.4898908,
+    "ast_hash": "396e7ad198638c621128b2a46fbea262",
+    "semantic_hash": "396e7ad198638c621128b2a46fbea262"
+  },
+  "/home/mg/vend/git-downloader-tool/config/config.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "4e72d79741a48fb872cdb022616ccde8",
+    "semantic_hash": "4e72d79741a48fb872cdb022616ccde8"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/runtime_config_additional_test.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "8626c30c93b90553dcc54c6065d7886a",
+    "semantic_hash": "8626c30c93b90553dcc54c6065d7886a"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/clone.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "10a09c4f6f8a4e54d826c79be6eba0da",
+    "semantic_hash": "10a09c4f6f8a4e54d826c79be6eba0da"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/runtime_config_test.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "b87e3ba0dabfcad227a1df653787c256",
+    "semantic_hash": "b87e3ba0dabfcad227a1df653787c256"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/info.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "5d5c4f9ef1ec2ce130a5992dc37ac29c",
+    "semantic_hash": "5d5c4f9ef1ec2ce130a5992dc37ac29c"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/update.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "9d0726cc51e476092fafb14f28b7ab01",
+    "semantic_hash": "9d0726cc51e476092fafb14f28b7ab01"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/info_test.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "ea95480c607ab9b50d7f347089a2796f",
+    "semantic_hash": "ea95480c607ab9b50d7f347089a2796f"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/cleanup.go": {
+    "mtime": 1783488113.4878898,
+    "ast_hash": "f249a8e95879e2ac3309a69bf756479b",
+    "semantic_hash": "f249a8e95879e2ac3309a69bf756479b"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/root.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "6d3692289a03f789a9ebba345f745994",
+    "semantic_hash": "6d3692289a03f789a9ebba345f745994"
+  },
+  "/home/mg/vend/git-downloader-tool/cmd/runtime_config.go": {
+    "mtime": 1783488113.4886205,
+    "ast_hash": "87e2fd0b5c8099b1f293167f7452d0b7",
+    "semantic_hash": "87e2fd0b5c8099b1f293167f7452d0b7"
+  },
+  "/home/mg/vend/git-downloader-tool/.github/renovate.json": {
+    "mtime": 1783488113.4878898,
+    "ast_hash": "9a56eb415662e7c15826dbb31f1fd6fe",
+    "semantic_hash": "9a56eb415662e7c15826dbb31f1fd6fe"
+  },
+  "/home/mg/vend/git-downloader-tool/git/git.go": {
+    "mtime": 1783488113.4908028,
+    "ast_hash": "0f89905c6307483e420d6d9f431a8e39",
+    "semantic_hash": "0f89905c6307483e420d6d9f431a8e39"
+  },
+  "/home/mg/vend/git-downloader-tool/git/git_test.go": {
+    "mtime": 1783488113.491559,
+    "ast_hash": "0d99519d1cd6c1dd390401ab784ee0b4",
+    "semantic_hash": "0d99519d1cd6c1dd390401ab784ee0b4"
+  },
+  "/home/mg/vend/git-downloader-tool/readme.md": {
+    "mtime": 1783488113.491559,
+    "ast_hash": "5e81518ee0f4fd384565afda30d65194",
+    "semantic_hash": "5e81518ee0f4fd384565afda30d65194"
+  },
+  "/home/mg/vend/git-downloader-tool/example-config.yaml": {
+    "mtime": 1783488113.4908028,
+    "ast_hash": "03cc5c9034328d3fd286ce3043b14e3f",
+    "semantic_hash": "03cc5c9034328d3fd286ce3043b14e3f"
+  },
+  "/home/mg/vend/git-downloader-tool/Taskfile.yml": {
+    "mtime": 1783488113.4878898,
+    "ast_hash": "52ee33454b595eaa3fc0f10523f2b1da",
+    "semantic_hash": "52ee33454b595eaa3fc0f10523f2b1da"
+  },
+  "/home/mg/vend/git-downloader-tool/docs/specification.md": {
+    "mtime": 1783488113.4908028,
+    "ast_hash": "dbecb919fda25d8778a1ff1c7961afdc",
+    "semantic_hash": "dbecb919fda25d8778a1ff1c7961afdc"
+  },
+  "/home/mg/vend/git-downloader-tool/docs/requirements.md": {
+    "mtime": 1783488113.4908028,
+    "ast_hash": "758c205fd171f192b00df6822ecf324e",
+    "semantic_hash": "758c205fd171f192b00df6822ecf324e"
+  },
+  "/home/mg/vend/git-downloader-tool/docs/examples/test-full-config.yaml": {
+    "mtime": 1783488113.4908028,
+    "ast_hash": "920102b07463f15b416be799b056e0ef",
+    "semantic_hash": "920102b07463f15b416be799b056e0ef"
+  },
+  "/home/mg/vend/git-downloader-tool/docs/examples/test-config.yaml": {
+    "mtime": 1783488113.4907074,
+    "ast_hash": "f7f673dec87392505cd0204a6e67d932",
+    "semantic_hash": "f7f673dec87392505cd0204a6e67d932"
+  },
+  "/home/mg/vend/git-downloader-tool/.github/dependabot.yml": {
+    "mtime": 1783488113.4870698,
+    "ast_hash": "c569ab562641334af01219aa8849f18f",
+    "semantic_hash": "c569ab562641334af01219aa8849f18f"
+  }
+}
