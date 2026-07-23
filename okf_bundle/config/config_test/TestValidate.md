@@ -32,4 +32,3 @@ Lines 135–202 in `config/config_test.go`
 |------|--------|
 | related | [config_test](/config/config_test.md) |
 | calls | [Validate](/config/config/Validate.md) |
-| calls | [Error](/cmd/runtime_config/Error.md) |

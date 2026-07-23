@@ -32,4 +32,3 @@ Lines 114–128 in `git/git_test.go`
 |------|--------|
 | related | [git_test](/git/git_test.md) |
 | calls | [UpdateRepository](/git/git/UpdateRepository.md) |
-| calls | [Error](/cmd/runtime_config/Error.md) |

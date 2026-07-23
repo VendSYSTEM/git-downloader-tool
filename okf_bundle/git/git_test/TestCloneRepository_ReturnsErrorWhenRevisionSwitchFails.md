@@ -33,4 +33,3 @@ Lines 73–89 in `git/git_test.go`
 | related | [git_test](/git/git_test.md) |
 | calls | [createCommittedRepo](/git/git_test/createCommittedRepo.md) |
 | calls | [CloneRepository](/git/git/CloneRepository.md) |
-| calls | [Error](/cmd/runtime_config/Error.md) |
