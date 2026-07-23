@@ -1,0 +1,18 @@
+# git_test
+
+## Functions
+
+- [addCommittedFile](addCommittedFile.md)
+- [createBranchWithFile](createBranchWithFile.md)
+- [createCommittedRepo](createCommittedRepo.md)
+- [runCommand](runCommand.md)
+- [TestCleanupRepository_EmptyPathUsesCurrentWorkingDirectory](TestCleanupRepository_EmptyPathUsesCurrentWorkingDirectory.md)
+- [TestCleanupRepository_RemovesExistingDirectory](TestCleanupRepository_RemovesExistingDirectory.md)
+- [TestCleanupRepository_ReturnsNilWhenPathDoesNotExist](TestCleanupRepository_ReturnsNilWhenPathDoesNotExist.md)
+- [TestCloneRepository_ReturnsErrorWhenCloneFails](TestCloneRepository_ReturnsErrorWhenCloneFails.md)
+- [TestCloneRepository_ReturnsErrorWhenRevisionSwitchFails](TestCloneRepository_ReturnsErrorWhenRevisionSwitchFails.md)
+- [TestCloneRepository_SucceedsWithLocalRepository](TestCloneRepository_SucceedsWithLocalRepository.md)
+- [TestCloneRepository_SyncsWhenTargetExists](TestCloneRepository_SyncsWhenTargetExists.md)
+- [TestUpdateRepository_ReturnsErrorForNonRepositoryPath](TestUpdateRepository_ReturnsErrorForNonRepositoryPath.md)
+- [TestUpdateRepository_ReturnsErrorWhenPullFails](TestUpdateRepository_ReturnsErrorWhenPullFails.md)
+- [TestUpdateRepository_SucceedsForValidGitRepository](TestUpdateRepository_SucceedsForValidGitRepository.md)
