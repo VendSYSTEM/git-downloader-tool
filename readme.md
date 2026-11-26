@@ -259,7 +259,7 @@ This repository includes a development taskfile at `Taskfile.yml`.
 
 Prerequisites:
 
-- Go `1.25+`
+- Go `1.26.4+`
 - Task (go-task) `3.x`
 - System tools available in `PATH`: `git`, `tar`, `zip`, `shasum`
 
@@ -278,6 +278,13 @@ Common tasks:
 - `verify` - Run gofmt check, `go vet`, and tests
 - `govuln` - Run `govulncheck ./...` (auto-installs if missing)
 - `release` - Run clean + verify + coverage + govuln + multiarch builds, package archives and checksums in `dist/release/`
+
+CI runs formatting, vet, tests, build, Trivy, and govulncheck on pull requests
+to `main` and pushes to `main`. The `skip:security` pull request label allows
+security scan failures without blocking the pull request; both scans still run.
+Setup failures remain strict, as do Go checks and pushes. Adding or removing
+the label starts a fresh CI run. Configure required checks in branch protection
+separately.
 
 Examples:
 
